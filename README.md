@@ -7,3 +7,4 @@
 
 # General MVVM Architecture Diagram:
 <img width="100%" alt="MVVM_Architecture_Diagram" src="https://github.com/user-attachments/assets/499eecb9-38ae-4f80-89f1-4ba672dc164f" />
+.
