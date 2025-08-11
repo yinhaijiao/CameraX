@@ -6,4 +6,4 @@
 <img width="32%" alt="Screenshot2" src="https://github.com/user-attachments/assets/d8b1faab-56dd-4192-9696-b6ae44f160c2" />
 
 # General MVVM Architecture Diagram:
-<img width="100%" alt="MVVM_Architecture_Diagram" src="https://github.com/user-attachments/assets/499eecb9-38ae-4f80-89f1-4ba672dc164f" />
+<img width="100%" alt="MVVM_Architecture_Diagram" src="https://github.com/user-attachments/assets/8a584171-7f8e-46c9-aa6b-40c2f316d3da" />
