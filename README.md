@@ -1,4 +1,4 @@
-# Simple Demo Of Android MVVM Architecture.
+# Simple Demo of Android MVVM Architecture.
 
 # Screenshots:
 <img width="32%" alt="Screenshot0" src="https://github.com/user-attachments/assets/1343fcf3-d787-4539-9343-cbf5a0a99b46" />
