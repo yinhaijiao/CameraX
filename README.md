@@ -1,9 +1,50 @@
-# Simple Demo of Android MVVM Architecture.
+# 给脚本执行权限
+chmod +x setup_web_android.sh
 
-# Screenshots:
-<img width="32%" alt="Screenshot0" src="https://github.com/user-attachments/assets/1343fcf3-d787-4539-9343-cbf5a0a99b46" />
-<img width="32%" alt="Screenshot1" src="https://github.com/user-attachments/assets/1892179a-959f-47df-b47a-82f132cf191d" />
-<img width="32%" alt="Screenshot2" src="https://github.com/user-attachments/assets/d8b1faab-56dd-4192-9696-b6ae44f160c2" />
+# 运行设置脚本
+./setup_web_android.sh
 
-# General MVVM Architecture Diagram:
-<img width="100%" alt="MVVM_Architecture_Diagram" src="https://github.com/user-attachments/assets/8a584171-7f8e-46c9-aa6b-40c2f316d3da" />
+
+
+# 构建APK
+./gradlew assembleDebug
+
+# 等待模拟器完全启动
+adb wait-for-device
+
+# 安装应用
+adb install app/build/outputs/apk/debug/app-debug.apk
+
+# 启动应用
+adb shell am start -n com.example.cameraapp/.MainActivity
+
+
+
+
+# 直接连接手机
+# 确保ADB可用
+export ANDROID_HOME=~/android-sdk
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+# 启动ADB服务
+adb start-server
+
+
+# 1. 用USB线连接手机和电脑
+# 2. 手机上会弹出授权提示，点击"允许"
+# 3. 检查连接状态
+adb devices
+
+# 应该显示类似这样：
+# List of devices attached
+# ABC123DEF456    device
+
+
+# 1. 确保手机和电脑在同一WiFi网络
+# 2. 在开发者选项中开启"无线调试"
+# 3. 点击"无线调试"进入，记下IP地址和端口号
+# 4. 在电脑上连接
+adb connect 192.168.1.100:5555  # 替换为实际IP和端口
+
+# 验证连接
+adb devices
