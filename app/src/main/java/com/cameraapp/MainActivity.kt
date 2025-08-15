@@ -3,6 +3,7 @@ package com.example.cameraapp
 import android.Manifest
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.hardware.camera2.CameraManager
 import android.media.AudioManager
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewFinder: PreviewView
     private lateinit var btnBrightnessDown: ImageButton
     private lateinit var btnBrightnessUp: ImageButton
+    private lateinit var btnNews: ImageButton
     
     private var imageCapture: ImageCapture? = null
     private lateinit var cameraExecutor: ExecutorService
@@ -76,6 +78,7 @@ class MainActivity : AppCompatActivity() {
         viewFinder = findViewById(R.id.viewFinder)
         btnBrightnessDown = findViewById(R.id.btnBrightnessDown)
         btnBrightnessUp = findViewById(R.id.btnBrightnessUp)
+        btnNews = findViewById(R.id.btnNews)
         
         // 保存原始亮度
         originalBrightness = getBrightness()
@@ -87,6 +90,11 @@ class MainActivity : AppCompatActivity() {
         
         btnBrightnessUp.setOnClickListener {
             restoreOriginalBrightness()
+        }
+        
+        btnNews.setOnClickListener {
+            val intent = Intent(this, NewsListActivity::class.java)
+            startActivity(intent)
         }
         
         // 检查权限
@@ -155,6 +163,7 @@ class MainActivity : AppCompatActivity() {
     }
     
     private fun takePhoto() {
+
         val imageCapture = imageCapture ?: return
         
         val name = SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS", Locale.US)
