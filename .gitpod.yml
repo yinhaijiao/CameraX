@@ -1,86 +1,46 @@
-image: gitpod/workspace-android
+image:
+  file: .gitpod.Dockerfile
 
 tasks:
-  - name: setup-android-environment
+  - name: Setup Android Development Environment
     init: |
-      # 安装Java 17
-      sdk install java 17.0.9-zulu
-      sdk use java 17.0.9-zulu
-      sdk default java 17.0.9-zulu
+      # 安装Android SDK
+      export ANDROID_HOME="$HOME/android-sdk"
+      mkdir -p $ANDROID_HOME
+      cd $ANDROID_HOME
       
-      # 设置Android SDK
-      export ANDROID_HOME=~/android-sdk
-      export ANDROID_SDK_ROOT=~/android-sdk
-      mkdir -p ~/android-sdk
-      cd ~/android-sdk
-      
-      # 下载Android命令行工具
+      # 下载命令行工具
       wget -q https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
       unzip -q commandlinetools-linux-9477386_latest.zip
+      
+      # 创建正确目录结构
       mkdir -p cmdline-tools/latest
       mv cmdline-tools/* cmdline-tools/latest/ 2>/dev/null || true
+      rm commandlinetools-linux-9477386_latest.zip
       
-      # 设置PATH
-      export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator
+      # 设置环境变量
+      export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
       
-      # 安装必要组件
-      yes | sdkmanager --licenses > /dev/null 2>&1
-      sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+      # 接受许可证并安装SDK组件
+      yes | sdkmanager --licenses >/dev/null 2>&1
+      sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.2" >/dev/null 2>&1
       
       # 创建local.properties
       echo "sdk.dir=$ANDROID_HOME" > /workspace/CameraX/local.properties
       
-      echo "Android development environment setup complete!"
-      
-  - name: setup-web-emulator
+      echo "Android SDK setup completed!"
+    
     command: |
-      echo "Setting up web-based Android emulator..."
-      chmod +x setup_web_android.sh
-      ./setup_web_android.sh
-      
-  - name: build-project
-    command: |
-      # 确保环境变量正确设置
-      export ANDROID_HOME=~/android-sdk
-      export ANDROID_SDK_ROOT=~/android-sdk
+      export ANDROID_HOME="$HOME/android-sdk"
       export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
-      
-      echo "Building Android project..."
-      ./gradlew clean assembleDebug
-      
-      echo "Waiting for emulator..."
-      adb wait-for-device
-      
-      echo "Installing APK..."
-      adb install app/build/outputs/apk/debug/app-debug.apk
-      
-      echo "Starting app..."
-      adb shell am start -n com.example.cameraapp/.MainActivity
-      
-      echo "✅ App installed and started!"
-      echo "🌐 View in browser at port 6080"
+      echo "Ready for Android development!"
+      echo "ANDROID_HOME: $ANDROID_HOME"
 
 ports:
-  - port: 5900
-    onOpen: ignore
-    description: VNC Server
-  - port: 6080
-    onOpen: open-browser
-    description: Web VNC Client (noVNC)
-  - port: 5037
-    onOpen: ignore
-    description: ADB Server
-
-vscode:
-  extensions:
-    - ms-vscode.vscode-kotlin
-    - vscjava.vscode-java-pack
-
-ports:
-  - port: 3000
+  - port: 8080
     onOpen: ignore
 
 vscode:
   extensions:
-    - ms-vscode.vscode-kotlin
     - vscjava.vscode-java-pack
+    - fwcd.kotlin
